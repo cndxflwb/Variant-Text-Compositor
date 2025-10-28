@@ -33,7 +33,7 @@ def process_default_mode(content, versions, chapter_title, section_title, subsec
                     variant_list.append(f"{version}作「{variant_dict[version]}」")
             endnote_content += "，".join(variant_list)
             
-            result = f"{{\\textcolor{{blue}}{{{base_text}}}}}\\endnote{{ {endnote_content}。}}"
+            result = f"\n{{\\textcolor{{blue}}{{{base_text}}}}}\\endnote{{ {endnote_content}。}}"
             return result
         else:
             return base_text
