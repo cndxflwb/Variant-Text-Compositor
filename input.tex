@@ -1,0 +1,111 @@
+\documentclass{ctexbook}
+
+\ctexset{
+	tocdepth=section,
+	part/numbering=false,
+	part/pagestyle=empty,
+	chapter/numbering=false,
+	chapter/pagestyle=empty,                  %章級標題頁面不顯示頁眉頁腳
+	section/numbering=false,                  %節級標題不編號
+	subsection/numbering=false,                  %節級標題不編號
+}
+
+%\usepackage[paperwidth=152mm,paperheight=228mm,text={306.6pt,495.03792pt},bottom=23mm,outer=23mm,headsep=14pt]{geometry}
+
+% 控制默認的列表間距
+% https://yuxtech.club/2021/01/18/enumerate/
+\usepackage{enumitem}
+\setlist{nosep}
+\AddEnumerateCounter{\chinese}{\chinese}{} % \begin{enumerate}[label = \chinese*、]
+
+% 尾注-用於校勘記
+% 用法：文中\endnote{...} 在要显示尾注的位置输入 \theendnotes
+\usepackage{endnotes}
+\usepackage{etoolbox}% 每章尾注重新编号
+\makeatletter
+\def\enoteheading{\subsubsection*{\notesname
+  \@mkboth{\MakeUppercase{\notesname}}{\MakeUppercase{\notesname}}}%
+  \mbox{}\par\vskip-3\baselineskip\noindent\rule{.5\textwidth}{0pt}\par\vskip\baselineskip}
+\makeatother
+\renewcommand{\notesname}{校勘记} % 定义尾注的标题名称
+%\newcommand{\jiaokanji}{\vspace{1em}\noindent\textbf{校勘记}} % 要随\theendnotes一起出现
+
+\def\enotesize{\normalsize}
+\csappto{theendnotes}{\setcounter{endnote}{0}}
+%\renewcommand{\theendnote}{\hskip -2pt〔\zhdigits{\arabic{endnote}}〕\hskip -2pt} % 中文编号带六角括号
+
+\usepackage{xcolor}
+
+% 分頁表格
+\usepackage{array}
+\renewcommand{\arraystretch}{1.1} %单元格邊框距內容距離
+%\renewcommand\thetable{\zhnumber{table}} %表格序號爲中文編號
+\setlength{\fboxsep}{1pt} %边框与内容的距离
+% 新一代表格宏包，中文说明：https://gitee.com/nwafu_nan/tabularray-doc-zh-cn
+\usepackage{tabularray}
+\NewTblrTheme{fancy}{
+	\SetTblrStyle{firsthead}{font=\bfseries}
+	%\SetTblrStyle{firstfoot}{fg=blue2}
+	\SetTblrStyle{middlefoot}{\itshape}
+	\SetTblrStyle{caption-tag}{red2}
+}
+\DefTblrTemplate{contfoot-text}{default}{转下页}
+\DefTblrTemplate{conthead-text}{default}{（续表）}
+
+% 超链接
+% \texorpdfstring{显示内容}{书签内容}，当标题中存在命令时，需要保护，防止编译报warning
+\usepackage{hyperref}
+\hypersetup{
+	CJKbookmarks=true,                %開啓CJK書籤
+	bookmarksopen=false,              %默認書籤不展開，即摺疊狀態
+	colorlinks,                       %超鏈接要有顏色
+	linkcolor=black,                 %超鏈接的顏色是黑色，要使用這個配置，就取消註釋
+	unicode=true,
+	bookmarksnumbered=true,          %書籤編號
+}
+
+% 版本注册命令（保留用于其他用途）
+\newcommand{\banbenzhuce}[1]{}
+
+% 定义banben命令（只输出底本文字）
+\newcommand{\banben}[2][]{#2}
+
+\makeatletter
+\newenvironment{diben}[1]
+  {\list{}{\listparindent 2em
+    \itemindent\listparindent
+    \rightmargin 0em  % 将右边距设为 0
+    \leftmargin 0em  % 保持左边距
+    \parsep \z@ \@plus\p@}%
+   \item\relax}
+  {\endlist}
+\makeatother
+
+\begin{document}
+
+% 注册版本
+\banbenzhuce{许本,黄本,四库,孙本,沈本,详节}
+
+\chapter{卷之一}
+
+\section{周南第一}
+
+\subsection{關雎}
+
+\begin{diben}
+\banben{關關}[沈本={关关},孙本={官官}]雎鳩，在河之洲。窈窕淑女，君子好逑。
+
+參差荇菜，\banben{左右}[许本={左},黄本={左中右}]流之。窈窕\banben{淑女}[四库={叔叔}]，寤寐求之。
+
+求之不得，寤寐思\banben{服}[详节={拂}]。悠哉悠哉，輾轉反側。
+
+參差\banben{荇菜}[许本={白菜},黄本={水葫芦}]，左右采之。窈窕淑女，琴瑟友之。
+
+參差荇菜，左右芼之。窈窕淑女，\banben{鐘}[孙本={鍾},详节={钟},四库={鈡},沈本={锺}]鼓樂之。
+
+\printyiwenlist
+\end{diben}
+
+窈窕淑女，琴瑟友之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。窈窕淑女，琴瑟友之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。窈窕淑女，琴瑟友之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。窈窕淑女，琴瑟友之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。窈窕淑女，琴瑟友之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。參差荇菜，左右芼之。
+
+\end{document}
