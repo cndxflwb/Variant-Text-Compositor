@@ -12,8 +12,12 @@
 - `main.tex`——经Python脚本处理的输出文件，编译使用
 - `preprocess.py`——Python脚本，将input.tex中的版本异文替换成尾注（校勘记），并制作成长表格（可分页长表格）；同时支持替换底本文字和输出对照版
 - 编译.bat——批处理命令
-
-# input.tex
+``
+python preprocess.py -r
+xelatex main.tex
+xelatex main.tex
+start main.pdf
+``
 
 ## 注册版本
 
