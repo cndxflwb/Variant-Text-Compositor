@@ -1,4 +1,5 @@
-python preprocess.py -r
+python preprocess.py -p
 xelatex main.tex
 xelatex main.tex
-start main.pdf
+ren main.pdf main-p.pdf
+start main-p.pdf
