@@ -33,7 +33,7 @@ def process_default_mode(content, versions, chapter_title, section_title, subsec
                     variant_list.append(f"{version}作「{variant_dict[version]}」")
             endnote_content += "，".join(variant_list)
             
-            result = f"\n{{\\textcolor{{blue}}{{{base_text}}}}}\\endnote{{ {endnote_content}。}}"
+            result = f"{{\\textcolor{{blue}}{{{base_text}}}}}\\endnote{{ {endnote_content}。}}"
             return result
         else:
             return base_text
@@ -135,7 +135,7 @@ def process_replace_mode(content, versions, selected_version):
             if selected_version in variant_dict:
                 replacement_text = variant_dict[selected_version]
                 # 用红色标注替换的文字
-                result = f"\n{{\\textcolor{{red}}{{{replacement_text}}}}}\\endnote{{底本「{base_text}」，{selected_version}作「{replacement_text}」。}}"
+                result = f"{{\\textcolor{{red}}{{{replacement_text}}}}}\\endnote{{底本「{base_text}」，{selected_version}作「{replacement_text}」。}}"
                 return result
             else:
                 # 如果指定版本没有异文，使用底本文字
@@ -311,6 +311,9 @@ def process_tex_file(input_file, output_file, mode='default', selected_version=N
         final_content, variant_count = process_parallel_mode(content, versions)
         print(f"对照版模式：使用paracol输出所有版本对照")
     
+    final_content = re.sub(r'\\begin{diben}',r'\\begin{diben}\n',final_content)
+    final_content = re.sub(r'\\end{diben}',r'\n\\end{diben}',final_content)
+
     # 写入输出文件
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(final_content)
