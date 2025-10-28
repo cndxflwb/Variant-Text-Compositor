@@ -65,13 +65,7 @@ p参数下需要明确正文段落，才可以生成多列，因此需要将对�
 
 ## 表格标题
 
-`{chapter_title}`——卷
-`{section_title}`——节
-`{subsection_title}`——小节
-
-``table_caption = f"异文对照表——{chapter_title}丨{subsection_title}"``
-
-我在整理《广记》项目，它是三级结构。因此我的表格会显示卷和小节标题。
+根据异文所在章节，自动更新表格标题。我在整理《广记》项目，它是三级结构。因此我的表格会显示卷和小节标题。
 
 ## 底本文字颜色
 
@@ -85,6 +79,8 @@ p参数下需要明确正文段落，才可以生成多列，因此需要将对�
 
 ## 显示/隐藏校勘记
 
+在对照表模式下：
+
 ``replacement_content = table_content + "\n\n\\theendnotes"``
 
 默认显示。如不需要显示，可以注释掉：
@@ -93,26 +89,28 @@ p参数下需要明确正文段落，才可以生成多列，因此需要将对�
 
 ## 参数
 
-不带参数时，仅输出长表格：
+### -t/--table（对照表模式）
 
 ``python preprocess.py``
 
-### -e
+使用底本文字，生成异文对照表
+
+### -e/--endnote（校勘记模式）
 
 ``python preprocess.py -e``
 
-校勘记模式：只输出校勘记。没有长表格。
+只输出校勘记。没有长表格。
 
-### -r
+### -r/--replace（替换模式）
 
 ``python preprocess.py -r``
 
-替换模式：将底本文字替换为指定版本文字，同时输出校勘记。需要在控制台选择要保留的版本。
+将底本文字替换为指定版本文字，同时输出校勘记。需要在控制台选择要保留的版本。
 
-### -p
+### -p/--paracol（对照版模式）
 
 ``python preprocess.py -p``
 
-对照版模式：使用paracol输出所有版本对照。这个模式会修改页面布局，默认是A4横向，可以在脚本中自定义布局。
+使用paracol输出所有版本对照。这个模式会修改页面布局，默认是A4横向，可以在脚本中自定义布局。
 
 ``if r'\usepackage[a4paper,landscape]{geometry}' not in content:``
