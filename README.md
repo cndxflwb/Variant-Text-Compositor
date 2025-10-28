@@ -13,16 +13,6 @@
 - `preprocess.py`——Python脚本，将input.tex中的版本异文替换成尾注（校勘记），并制作成长表格（可分页长表格）；同时支持替换底本文字和输出对照版
 - 编译.bat——批处理命令
 
-``
-python preprocess.py -r
-
-xelatex main.tex
-
-xelatex main.tex
-
-start main.pdf
-``
-
 ## 注册版本
 
 版本注册命令（保留用于其他用途）
@@ -39,15 +29,7 @@ start main.pdf
 
 p参数下需要明确正文段落，才可以生成多列，因此需要将对照的段落放置到一个环境中。这里定义了diben环境，用于存放。
 
-``
-\begin{diben}
-
-\banben{關關}[沈本={关关},孙本={官官}]雎鳩，在河之洲。窈窕淑女，君子好逑。
-……
-\printyiwenlist
-
-\end{diben}
-``
+``\begin{diben}\banben{關關}[沈本={关关},孙本={官官}]雎鳩，在河之洲。窈窕淑女，君子好逑。……\printyiwenlist\end{diben}``
 
 ## 著录异文
 
