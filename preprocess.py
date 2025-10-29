@@ -134,9 +134,33 @@ def process_table_mode(content, versions):
             return full_diben_match
             
         diben_content = inner_match.group(1)
+        variants = []
+        note_counter = 0  # 为当前diben环境内的异文计数
         
-        # 处理banben命令
-        processed_content, variants = process_banben_commands(diben_content, versions, 'table')
+        def replace_banben(match):
+            nonlocal note_counter
+            base_text = match.group(1)
+            optional_params = match.group(2) if match.group(2) else ""
+            
+            if optional_params:
+                note_counter += 1
+                variant_dict = {}
+                variant_dict['base'] = base_text
+                
+                variant_matches = re.findall(r'(\w+)=\{([^}]*)\}', optional_params)
+                for version, variant_text in variant_matches:
+                    variant_dict[version] = variant_text
+                
+                variants.append(variant_dict)
+                
+                # 使用自定义计数器，而不是endnote
+                result = f"{{\\textcolor{{blue}}{{{base_text}}}}}{{\\textsuperscript{{{note_counter}}}}}"
+                return result
+            else:
+                return base_text
+        
+        banben_pattern = r'\\banben\{([^}]*)\}(?:\[([^]]*)\])?'
+        processed_content = re.sub(banben_pattern, replace_banben, diben_content)
         
         # 为当前diben环境生成异文表格
         if variants:
@@ -146,7 +170,8 @@ def process_table_mode(content, versions):
         else:
             table_content = ""
         
-        replacement_content = table_content# + "\n\n\\theendnotes"
+        # 替换\printyiwenlist为表格，不再使用\theendnotes
+        replacement_content = table_content
         final_diben_content = processed_content.replace('\\printyiwenlist', replacement_content)
         
         return f"\\begin{{diben}}{final_diben_content}\\end{{diben}}"
@@ -274,7 +299,8 @@ def add_required_packages(content, mode):
     """添加必要的LaTeX包"""
     packages_to_add = []
     
-    if r'\usepackage{endnotes}' not in content:
+    # 在table模式下不需要endnotes包
+    if mode != 'table' and r'\usepackage{endnotes}' not in content:
         packages_to_add.append(r'\usepackage{endnotes}')
     
     if mode == 'table' and r'\usepackage{tabularray}' not in content:
