@@ -91,7 +91,7 @@ p参数下需要明确正文段落，才可以生成多列，因此需要将对�
 
 ### -t/--table（对照表模式）
 
-``python preprocess.py``
+``python preprocess.py -t``
 
 使用底本文字，生成异文对照表
 
